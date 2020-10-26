@@ -9,3 +9,8 @@
  ::initialize-db
  (fn-traced [_ _]
    db/default-db))
+
+(re-frame/reg-event-db
+ ::update-state
+ (fn-traced [db [_ keys new-value]]
+            (assoc-in db keys new-value)))

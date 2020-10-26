@@ -6,3 +6,13 @@
  ::name
  (fn [db]
    (:name db)))
+
+(re-frame/reg-sub
+ ::value
+ (fn [db]
+   db))
+
+(re-frame/reg-sub
+ ::error
+ (fn [db]
+   {}))
