@@ -16,3 +16,8 @@
  ::error
  (fn [db]
    {}))
+
+(re-frame/reg-sub
+ ::password-strength
+ (fn [db]
+   (get-in db [:gauge :score])))
