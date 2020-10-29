@@ -8,6 +8,7 @@
                  [reagent "0.10.0"]
                  [re-frame "1.1.1"]
                  [day8.re-frame/tracing "0.6.0"]
+                 [day8.re-frame/http-fx "0.2.1"]
                  [com.pupeno/free-form "0.6.0"]
                  [metosin/reitit "0.5.10"]
                  [cljs-http "0.1.46"]]

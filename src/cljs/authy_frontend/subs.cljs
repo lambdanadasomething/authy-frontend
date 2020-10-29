@@ -26,3 +26,13 @@
  ::password-feedback
  (fn [db]
    (get-in db [:gauge :feedback])))
+
+(re-frame/reg-sub
+ ::user-state
+ (fn [db]
+   (get db :user-state)))
+
+(re-frame/reg-sub
+ ::user-available?
+ (fn [db]
+   (get db :available?)))

@@ -45,8 +45,8 @@
         password-color (str "bg-" (get color-mapping @password-score))
         strength-color (str "text-" (get color-mapping @password-score))
         _ (. (js/$ "#passwordhelp") tooltip)
-        user-state :finished
-        available? false]
+        user-state (re-frame/subscribe [::subs/user-state])
+        available? (re-frame/subscribe [::subs/user-available?])]
     [:div.container
      [:div.row
       [:div.col
@@ -61,8 +61,8 @@
                                   :free-form/error-class {:key :text :error "error"}
                                   :type                  :text
                                   :id                    :user-id}
-                                  (= user-state :finished) (assoc :class (if available? "is-valid" "is-invalid")))]
-           (if (= user-state :loading)
+                                  (= @user-state :finished) (assoc :class (if @available? "is-valid" "is-invalid")))]
+           (if (= @user-state :loading)
              [:div.spinner-border.text-secondary.float-right {:role "status"} [:span.sr-only "Loading..."]])]]
          [:div.valid-feedback "Hey man"]
          [:div.form-group
