@@ -44,7 +44,9 @@
         password-percent (* (+ @password-score 1) 20)
         password-color (str "bg-" (get color-mapping @password-score))
         strength-color (str "text-" (get color-mapping @password-score))
-        _ (. (js/$ "#passwordhelp") tooltip)]
+        _ (. (js/$ "#passwordhelp") tooltip)
+        user-state :finished
+        available? false]
     [:div.container
      [:div.row
       [:div.col
@@ -53,10 +55,16 @@
         [:form
          [:div.form-group
           [:label {:for :user-id} "User ID:"]
-          [:input.form-control {:free-form/input       {:key :user-id}
-                                :free-form/error-class {:key :text :error "error"}
-                                :type                  :text
-                                :id                    :user-id}]]
+          [:div.clearfix
+           [:input.form-control (cond->
+                                 {:free-form/input       {:key :user-id}
+                                  :free-form/error-class {:key :text :error "error"}
+                                  :type                  :text
+                                  :id                    :user-id}
+                                  (= user-state :finished) (assoc :class (if available? "is-valid" "is-invalid")))]
+           (if (= user-state :loading)
+             [:div.spinner-border.text-secondary.float-right {:role "status"} [:span.sr-only "Loading..."]])]]
+         [:div.valid-feedback "Hey man"]
          [:div.form-group
           [:label {:for :password} "Password:"]
           [:input.form-control {:free-form/input       {:key :password}
