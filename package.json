@@ -5,6 +5,7 @@
 		"react": "16.14.0",
 		"react-dom": "16.14.0",
 		"react-highlight.js": "1.0.7",
+		"react-verification-code-input": "^1.2.6",
 		"zxcvbn": "^4.4.2"
 	},
 	"devDependencies": {

@@ -21,3 +21,8 @@
  ::password-strength
  (fn [db]
    (get-in db [:gauge :score])))
+
+(re-frame/reg-sub
+ ::password-feedback
+ (fn [db]
+   (get-in db [:gauge :feedback])))
