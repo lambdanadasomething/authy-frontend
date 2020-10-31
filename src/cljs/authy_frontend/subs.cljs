@@ -23,6 +23,11 @@
    (get-in db [:matched-reitit :data :name])))
 
 (re-frame/reg-sub
+ ::login-error
+ (fn [db]
+   (:login-err db)))
+
+(re-frame/reg-sub
  ::password-strength
  (fn [db]
    (get-in db [:gauge :score])))
