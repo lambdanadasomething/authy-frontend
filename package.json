@@ -2,6 +2,7 @@
 	"name": "authy-frontend",
 	"dependencies": {
 		"highlight.js": "9.18.1",
+		"qrcode": "^1.4.4",
 		"react": "16.14.0",
 		"react-dom": "16.14.0",
 		"react-highlight.js": "1.0.7",

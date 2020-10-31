@@ -17,6 +17,11 @@
  (fn-traced [_ _]
    db/default-db))
 
+(re-frame/reg-event-db
+ ::navigate
+ (fn-traced [db [_ match]]
+            (assoc db :matched-reitit match)))
+
 (def timers (atom {}))
 
 (defn update-timers-purge [timers k purge-list]

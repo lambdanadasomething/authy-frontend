@@ -4,7 +4,8 @@
    [authy-frontend.subs :as subs]
    [authy-frontend.events :as events]
    [free-form.re-frame :as free-form]
-   [reagent.dom.server :as rserv]))
+   [reagent.dom.server :as rserv]
+   [reitit.frontend.easy :as rfe]))
 
 (def color-mapping
   {0 "danger"
@@ -35,7 +36,7 @@
 
 ;Run this at beginning (. (js/$ "#passwordhelp") tooltip)
 
-(defn main-panel []
+(defn signup-panel []
   (let [name (re-frame/subscribe [::subs/name])
         values (re-frame/subscribe [::subs/value])
         errors (re-frame/subscribe [::subs/error])
@@ -51,6 +52,7 @@
      [:div.row
       [:div.col
        [:h1 "Hello from hi " @name]
+       [:a {:href (rfe/href :authy-frontend.routes/login-page)} "Back to login"]
        [free-form/form @values @errors ::events/update-state
         [:form
          [:div.form-group
@@ -81,3 +83,12 @@
            [:span#passwordhelp {:data-toggle "tooltip" :data-placement "right" :data-html true :title (render-password-help @password-feedback)} [svg-help]]]]]]]
       [:div.col]]
      ]))
+
+;; Finally, the main
+;; 
+(defn main-panel []
+  (let [route (re-frame/subscribe [::subs/current-route])]
+    [:div (case @route
+            :authy-frontend.routes/login-page [:span "Login?"]
+            :authy-frontend.routes/signup-page [signup-panel]
+            [:span "Unknown"])]))

@@ -5,6 +5,7 @@
    [authy-frontend.events :as events]
    [authy-frontend.views :as views]
    [authy-frontend.config :as config]
+   [authy-frontend.routes :as routes]
    ))
 
 
@@ -20,5 +21,6 @@
 
 (defn init []
   (re-frame/dispatch-sync [::events/initialize-db])
+  (routes/start-router)
   (dev-setup)
   (mount-root))

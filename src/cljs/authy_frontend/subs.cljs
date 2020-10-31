@@ -18,6 +18,11 @@
    {}))
 
 (re-frame/reg-sub
+ ::current-route
+ (fn [db]
+   (get-in db [:matched-reitit :data :name])))
+
+(re-frame/reg-sub
  ::password-strength
  (fn [db]
    (get-in db [:gauge :score])))
