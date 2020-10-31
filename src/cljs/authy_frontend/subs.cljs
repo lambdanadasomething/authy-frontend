@@ -28,6 +28,11 @@
    (:login-err db)))
 
 (re-frame/reg-sub
+ ::mfa-type
+ (fn [db]
+   (:mfa-type db)))
+
+(re-frame/reg-sub
  ::password-strength
  (fn [db]
    (get-in db [:gauge :score])))

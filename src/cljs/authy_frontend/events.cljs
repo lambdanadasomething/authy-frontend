@@ -41,10 +41,23 @@
                   {:keys [success? reason need-mfa? mfa]} parsed]
               (cond
                 (not success?) {:db (assoc db :login-err reason)}
-                need-mfa? {:db (dissoc db :login-err)
+                need-mfa? {:db (-> db
+                                   (dissoc :login-err)
+                                   (assoc :mfa-type mfa))
                            :dispatch [::navigate (routes/trigger-route ::routes/mfa-page)]}
                 true {:db (dissoc db :login-err)
                       :dispatch [::navigate (routes/trigger-route ::routes/admin-test-page)]}))))
+
+(re-frame/reg-event-fx
+ ::do-mfa
+ (fn-traced [{:keys [db]} [_ s]]
+            {:db db
+             :http-xhrio {:method :post
+                          :uri "http://172.30.0.22:7070/authy/mfa-verify"
+                          :headers {"Content-Type" "application/edn"}
+                          :body (prn-str {:id "a" :totp-code s})
+                          :response-format (f/raw-response-format)
+                          :on-success  [::mfa-feedback]}}))
 
 (def timers (atom {}))
 

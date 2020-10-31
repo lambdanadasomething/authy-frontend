@@ -5,7 +5,8 @@
    [authy-frontend.events :as events]
    [free-form.re-frame :as free-form]
    [reagent.dom.server :as rserv]
-   [reitit.frontend.easy :as rfe]))
+   [reitit.frontend.easy :as rfe]
+   ["react-verification-code-input" :as codeinput]))
 
 (def color-mapping
   {0 "danger"
@@ -114,6 +115,19 @@
         [:button.btn.btn-primary {:type "button" :on-click #(re-frame/dispatch [::events/do-login (grab-user)])} "Login"]]]
       [:div.col]]]))
 
+(defn mfa-panel []
+  (let [mfa-type (re-frame/subscribe [::subs/mfa-type])]
+    [:div.container
+     [:div.row
+      [:div.col
+       [:h2 "Two Factor Authentication"]
+       [:a {:href (rfe/href :authy-frontend.routes/login-page)} "Back to login"]
+       [:p "You have enabled two factor authentication using " 
+        [:em "Google Authenticator"]
+        ". Please enter the six digit TOTP below:"]
+       [:> codeinput {:autoFocus true :onComplete #(re-frame/dispatch [::events/do-mfa %])}]]
+      [:div.col]]]))
+
 ;; Finally, the main
 ;; 
 (defn main-panel []
@@ -121,6 +135,7 @@
     [:div (case @route
             :authy-frontend.routes/login-page [login-panel]
             :authy-frontend.routes/signup-page [signup-panel]
+            :authy-frontend.routes/mfa-page [mfa-panel]
             [:div 
              [:span "Unknown"]
              [:span @route]])]))
